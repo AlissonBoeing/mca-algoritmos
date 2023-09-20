@@ -1,4 +1,5 @@
 import time
+import numpy as np
 class List:
     
     def __init__(self):
@@ -31,7 +32,7 @@ class List:
         self.print_info(len(self.l_10t),ss_swaps_10t, ss_comps_10t, ss_duration_ms_10t)
    
     def create_list(self):
-        with open("data/saidaOrdenada.txt", "r") as file:
+        with open("data/saidaAleatoria.txt", "r") as file:
             index = 0
             for line in file:
                 parts = line.strip().split(',')
@@ -48,19 +49,29 @@ class List:
         comps = 0
         swaps = 0
         duration = 0
-        start_time = time.time()
-        for i in range(len(list)):
-            lower_idx = i
-            for j in range(i+1, len(list)):
-                comps = comps + 1
-                if (list[j] < list[lower_idx]):
-                    lower_idx = j 
-            swaps = swaps + 1
-            lower = list[i]
-            list[i] = list[lower_idx]
-            list[lower_idx] = lower
-        duration = time.time() - start_time
-        return list, swaps, comps, duration*1000.0
+        dur_list = []
+        inner_list = []
+        for ii in range(5):
+            inner_list = list.copy()
+            comps = 0
+            swaps = 0
+            duration = 0
+            start_time = time.time()
+            for i in range(len(inner_list)):
+                lower_idx = i
+                for j in range(i+1, len(inner_list)):
+                    comps = comps + 1
+                    if (inner_list[j] < inner_list[lower_idx]):
+                        lower_idx = j 
+                swaps = swaps + 1
+                lower = inner_list[i]
+                inner_list[i] = inner_list[lower_idx]
+                inner_list[lower_idx] = lower
+            duration = time.time() - start_time
+            dur_list.append(duration)
+        duration = np.mean(dur_list)
+        list = inner_list
+        return list, swaps, comps, duration*1000
 
     def quick_sort(self, list):
         
