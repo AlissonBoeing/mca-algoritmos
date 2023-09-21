@@ -1,7 +1,8 @@
 import time
 import numpy as np
 class List:
-    
+    NUM_OF_ITERATIONS = 5
+
     def __init__(self):
         self.l_5h = []
         self.l_1t = []
@@ -9,60 +10,6 @@ class List:
         self.l_10t = []
         self.create_list()
 
-    def print_info(self, n, swaps, comps, duration):
-        print()
-        print(f"### {n} entries ###".format())
-        print("swaps: ", swaps)
-        print("comps: ", comps)
-        print("duration: ", duration)
-
-    def measure_quick_sort(self):
-        print("#### quick sort ####")
-
-        duration_list = []
-        for i in range(5):
-            sl, ss_swaps_5h, ss_comps_5h, ss_duration_ms_5h = self.quick_sort(self.l_5h.copy(), 0, 499) 
-            duration_list.append(ss_duration_ms_5h)
-        ss_duration_ms_5h = np.mean(duration_list)
-        self.print_info(len(self.l_5h), ss_swaps_5h, ss_comps_5h, ss_duration_ms_5h)
-
-        duration_list = []
-        for i in range(5):
-            sl, ss_swaps_1t, ss_comps_1t, ss_duration_ms_1t = self.quick_sort(self.l_1t.copy(), 0, 999) 
-            duration_list.append(ss_duration_ms_1t)
-        ss_duration_ms_1t = np.mean(duration_list)
-        self.print_info(len(self.l_1t), ss_swaps_1t, ss_comps_1t, ss_duration_ms_1t)
-
-        duration_list = []
-        for i in range(5):
-            sl, ss_swaps_5t, ss_comps_5t, ss_duration_ms_5t = self.quick_sort(self.l_5t.copy(), 0, 4999) 
-            duration_list.append(ss_duration_ms_5t)
-        ss_duration_ms_5t = np.mean(duration_list)
-        self.print_info(len(self.l_5t), ss_swaps_5t, ss_comps_5t, ss_duration_ms_5t)
-
-        duration_list = []
-        for i in range(5):
-            sl, ss_swaps_10t, ss_comps_10t, ss_duration_ms_10t = self.quick_sort(self.l_10t.copy(), 0, 9999) 
-            duration_list.append(ss_duration_ms_10t)
-        ss_duration_ms_10t = np.mean(duration_list)
-        self.print_info(len(self.l_10t), ss_swaps_10t, ss_comps_10t, ss_duration_ms_10t)
-
-
-    def measure_selection_sort(self):
-        print("#### selection sort ####")
-        
-        _, ss_swaps_5h, ss_comps_5h, ss_duration_ms_5h = self.selection_sort(self.l_5h.copy()) 
-        self.print_info(len(self.l_5h),ss_swaps_5h, ss_comps_5h, ss_duration_ms_5h)
-            
-        _, ss_swaps_1t, ss_comps_1t, ss_duration_ms_1t = self.selection_sort(self.l_1t.copy()) 
-        self.print_info(len(self.l_1t),ss_swaps_1t, ss_comps_1t, ss_duration_ms_1t)
-
-        _, ss_swaps_5t, ss_comps_5t, ss_duration_ms_5t = self.selection_sort(self.l_5t.copy()) 
-        self.print_info(len(self.l_5t),ss_swaps_5t, ss_comps_5t, ss_duration_ms_5t)
-       
-        _ , ss_swaps_10t, ss_comps_10t, ss_duration_ms_10t = self.selection_sort(self.l_10t.copy()) 
-        self.print_info(len(self.l_10t),ss_swaps_10t, ss_comps_10t, ss_duration_ms_10t)
-   
     def create_list(self):
         with open("data/saidaAleatoria.txt", "r") as file:
             index = 0
@@ -77,13 +24,81 @@ class List:
                 self.l_10t.append(int(parts[0]))
                 index = index+1
 
+    def print_info(self, n, swaps, comps, duration):
+        print()
+        print(f"### {n} entries ###".format())
+        print("swaps: ", swaps)
+        print("comps: ", comps)
+        print("duration: ", duration)
+    
+    def measure_shell_sort(self):
+        print("#### shell sort ####")
+
+        _, swaps_5h, comps_5h, duration_ms_5h = self.shell_sort(self.l_5h.copy()) 
+        self.print_info(len(self.l_5h),swaps_5h, comps_5h, duration_ms_5h)
+            
+        _, swaps_1t, comps_1t, duration_ms_1t = self.shell_sort(self.l_1t.copy()) 
+        self.print_info(len(self.l_1t),swaps_1t, comps_1t, duration_ms_1t)
+
+        _, swaps_5t, comps_5t, duration_ms_5t = self.shell_sort(self.l_5t.copy()) 
+        self.print_info(len(self.l_5t),swaps_5t, comps_5t, duration_ms_5t)
+       
+        _ , swaps_10t, comps_10t, duration_ms_10t = self.shell_sort(self.l_10t.copy()) 
+        self.print_info(len(self.l_10t),swaps_10t, comps_10t, duration_ms_10t)
+
+    def measure_quick_sort(self):
+        print("#### quick sort ####")
+
+        duration_list = []
+        for i in range(self.NUM_OF_ITERATIONS):
+            sl, swaps_5h, comps_5h, duration_ms_5h = self.quick_sort(self.l_5h.copy(), 0, 499) 
+            duration_list.append(duration_ms_5h)
+        duration_ms_5h = np.mean(duration_list)
+        self.print_info(len(self.l_5h), swaps_5h, comps_5h, duration_ms_5h)
+
+        duration_list = []
+        for i in range(self.NUM_OF_ITERATIONS):
+            sl, swaps_1t, comps_1t, duration_ms_1t = self.quick_sort(self.l_1t.copy(), 0, 999) 
+            duration_list.append(duration_ms_1t)
+        duration_ms_1t = np.mean(duration_list)
+        self.print_info(len(self.l_1t), swaps_1t, comps_1t, duration_ms_1t)
+
+        duration_list = []
+        for i in range(self.NUM_OF_ITERATIONS):
+            sl, swaps_5t, comps_5t, duration_ms_5t = self.quick_sort(self.l_5t.copy(), 0, 4999) 
+            duration_list.append(duration_ms_5t)
+        duration_ms_5t = np.mean(duration_list)
+        self.print_info(len(self.l_5t), swaps_5t, comps_5t, duration_ms_5t)
+
+        duration_list = []
+        for i in range(self.NUM_OF_ITERATIONS):
+            sl, swaps_10t, comps_10t, duration_ms_10t = self.quick_sort(self.l_10t.copy(), 0, 9999) 
+            duration_list.append(duration_ms_10t)
+        duration_ms_10t = np.mean(duration_list)
+        self.print_info(len(self.l_10t), swaps_10t, comps_10t, duration_ms_10t)
+
+    def measure_selection_sort(self):
+        print("#### selection sort ####")
+        
+        _, swaps_5h, comps_5h, duration_ms_5h = self.selection_sort(self.l_5h.copy()) 
+        self.print_info(len(self.l_5h),swaps_5h, comps_5h, duration_ms_5h)
+            
+        _, swaps_1t, comps_1t, duration_ms_1t = self.selection_sort(self.l_1t.copy()) 
+        self.print_info(len(self.l_1t),swaps_1t, comps_1t, duration_ms_1t)
+
+        _, swaps_5t, comps_5t, duration_ms_5t = self.selection_sort(self.l_5t.copy()) 
+        self.print_info(len(self.l_5t),swaps_5t, comps_5t, duration_ms_5t)
+       
+        _ , swaps_10t, comps_10t, duration_ms_10t = self.selection_sort(self.l_10t.copy()) 
+        self.print_info(len(self.l_10t),swaps_10t, comps_10t, duration_ms_10t)
+   
     def selection_sort(self, list):
         comps = 0
         swaps = 0
         duration = 0
         dur_list = []
         inner_list = []
-        for ii in range(5):
+        for ii in range(self.NUM_OF_ITERATIONS):
             inner_list = list.copy()
             comps = 0
             swaps = 0
@@ -134,7 +149,6 @@ class List:
             duration = time.time() - start_time
             return list, swaps, comps, duration*1000
 
-    
     def insertion_sort(self, list):
         
         return list, swaps, comps, duration*1000.0
@@ -144,5 +158,33 @@ class List:
         return list, swaps, comps, duration*1000.0
 
     def shell_sort(self, list):
-        
+        comps = 0
+        swaps = 0
+        duration = 0
+        dur_list = []
+        inner_list = []
+        for i in range(self.NUM_OF_ITERATIONS):
+            comps = 0
+            swaps = 0
+            duration = 0
+            inner_list = list.copy()
+            n = len(inner_list)
+            gap = n >> 1
+            start_time = time.time()
+            while(gap > 0):
+                for i in range(gap, n):
+                    temp = inner_list[i]
+                    j = i
+                    while((j >= gap) and (inner_list[j-gap] > temp)):
+                        comps = comps + 1
+                        inner_list[j] = inner_list[j-gap]
+                        swaps = swaps + 1
+                        j = j - gap 
+                    inner_list[j] = temp 
+                    swaps = swaps + 1
+                gap = gap >> 1
+            duration = time.time() - start_time
+            dur_list.append(duration)
+        list = inner_list
+        duration = np.mean(dur_list)
         return list, swaps, comps, duration*1000.0
