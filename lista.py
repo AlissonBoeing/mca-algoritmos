@@ -91,6 +91,21 @@ class List:
        
         _ , swaps_10t, comps_10t, duration_ms_10t = self.selection_sort(self.l_10t.copy()) 
         self.print_info(len(self.l_10t),swaps_10t, comps_10t, duration_ms_10t)
+
+    def measure_insertion_sort(self):
+        print("#### insertion sort ####")
+        
+        _, swaps_5h, comps_5h, duration_ms_5h = self.insertion_sort(self.l_5h.copy()) 
+        self.print_info(len(self.l_5h),swaps_5h, comps_5h, duration_ms_5h)
+            
+        _, swaps_1t, comps_1t, duration_ms_1t = self.insertion_sort(self.l_1t.copy()) 
+        self.print_info(len(self.l_1t),swaps_1t, comps_1t, duration_ms_1t)
+
+        _, swaps_5t, comps_5t, duration_ms_5t = self.insertion_sort(self.l_5t.copy()) 
+        self.print_info(len(self.l_5t),swaps_5t, comps_5t, duration_ms_5t)
+       
+        _ , swaps_10t, comps_10t, duration_ms_10t = self.insertion_sort(self.l_10t.copy()) 
+        self.print_info(len(self.l_10t),swaps_10t, comps_10t, duration_ms_10t)
    
     def selection_sort(self, list):
         comps = 0
@@ -150,7 +165,28 @@ class List:
             return list, swaps, comps, duration*1000
 
     def insertion_sort(self, list):
+        comps = 0
+        swaps = 0
+        duration = 0
+        start_time = time.time()
         
+        n = len(list)
+
+        for j in range(1, n):
+            chave = list[j]
+            i = j - 1
+
+            while i >= 0:
+                if(list[i] > chave):
+                    list[i + 1] = list[i]
+                    swaps = swaps + 1
+                comps = comps + 1
+                i = i - 1
+
+            list[i + 1] = chave
+        
+        duration = time.time() - start_time
+
         return list, swaps, comps, duration*1000.0
 
     def heap_sort(self, list):
