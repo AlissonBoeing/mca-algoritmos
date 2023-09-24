@@ -107,6 +107,21 @@ class List:
         _ , swaps_10t, comps_10t, duration_ms_10t = self.insertion_sort(self.l_10t.copy()) 
         self.print_info(len(self.l_10t),swaps_10t, comps_10t, duration_ms_10t)
    
+    def measure_merge_sort(self):
+        print("#### merge sort ####")
+        
+        _, swaps_5h, comps_5h, duration_ms_5h = self.merge_sort(self.l_5h.copy()) 
+        self.print_info(len(self.l_5h),swaps_5h, comps_5h, duration_ms_5h)
+            
+        _, swaps_1t, comps_1t, duration_ms_1t = self.merge_sort(self.l_1t.copy()) 
+        self.print_info(len(self.l_1t),swaps_1t, comps_1t, duration_ms_1t)
+
+        _, swaps_5t, comps_5t, duration_ms_5t = self.merge_sort(self.l_5t.copy()) 
+        self.print_info(len(self.l_5t),swaps_5t, comps_5t, duration_ms_5t)
+       
+        _ , swaps_10t, comps_10t, duration_ms_10t = self.merge_sort(self.l_10t.copy()) 
+        self.print_info(len(self.l_10t),swaps_10t, comps_10t, duration_ms_10t)
+        
     def selection_sort(self, list):
         comps = 0
         swaps = 0
@@ -189,8 +204,45 @@ class List:
 
         return list, swaps, comps, duration*1000.0
 
-    def heap_sort(self, list):
+    def merge_sort(self, list):
+        comps = 0
+        swaps = 0
+        duration = 0
+        start_time = time.time()
         
+        if len(list) > 1:
+            middle = len(list) // 2
+            left = list[:middle]
+            rigth = list[middle:]
+
+            self.merge_sort(left)
+            self.merge_sort(rigth)
+
+            i = j = k = 0
+
+            while i < len(left) and j < len(rigth):
+                if left[i] < rigth[j]:
+                    list[k] = left[i]
+                    i += 1
+                else:
+                    list[k] = rigth[j]
+                    swaps = swaps + 1
+                    j += 1
+                k += 1
+                comps = comps + 1
+
+            while i < len(left):
+                list[k] = left[i]
+                i += 1
+                k += 1
+
+            while j < len(rigth):
+                list[k] = rigth[j]
+                j += 1
+                k += 1
+
+        duration = time.time() - start_time
+
         return list, swaps, comps, duration*1000.0
 
     def shell_sort(self, list):
