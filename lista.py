@@ -211,15 +211,15 @@ class List:
 
         start_time = time.time()
 
-        def merge(list, esquerda, meio, direita):
-            n1 = meio - esquerda + 1
-            n2 = direita - meio
+        def merge(list, left, middle, right):
+            n1 = middle - left + 1
+            n2 = right - middle
 
-            L = list[esquerda:esquerda + n1]
-            R = list[meio + 1:meio + 1 + n2]
+            L = list[left:left + n1]
+            R = list[middle + 1:middle + 1 + n2]
 
             i = j = 0
-            k = esquerda
+            k = left
 
             while i < n1 and j < n2:
                 if L[i] <= R[j]:
@@ -242,14 +242,14 @@ class List:
                 j += 1
                 k += 1
 
-        def merge_sort_recursive(list, esquerda, direita):
-            if esquerda < direita:
-                meio = (esquerda + direita) // 2
+        def merge_sort_recursive(list, left, right):
+            if left < right:
+                middle = (left + right) // 2
 
-                merge_sort_recursive(list, esquerda, meio)
-                merge_sort_recursive(list, meio + 1, direita)
+                merge_sort_recursive(list, left, middle)
+                merge_sort_recursive(list, middle + 1, right)
 
-                merge(list, esquerda, meio, direita)
+                merge(list, left, middle, right)
 
         merge_sort_recursive(list, 0, len(list) - 1)
 
