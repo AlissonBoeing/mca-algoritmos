@@ -190,11 +190,10 @@ class List:
         for j in range(1, n):
             chave = list[j]
             i = j - 1
-
-            while i >= 0:
-                if(list[i] > chave):
-                    list[i + 1] = list[i]
-                    swaps = swaps + 1
+            comps += 1
+            while i >= 0 and list[i] > chave:
+                list[i + 1] = list[i]
+                swaps = swaps + 1
                 comps = comps + 1
                 i = i - 1
 
