@@ -205,45 +205,57 @@ class List:
         return list, swaps, comps, duration*1000.0
 
     def merge_sort(self, list):
-        comps = 0
-        swaps = 0
+        comps = [0]
+        swaps = [0]
         duration = 0
+
         start_time = time.time()
-        
-        if len(list) > 1:
-            middle = len(list) // 2
-            left = list[:middle]
-            rigth = list[middle:]
 
-            self.merge_sort(left)
-            self.merge_sort(rigth)
+        def merge(list, esquerda, meio, direita):
+            n1 = meio - esquerda + 1
+            n2 = direita - meio
 
-            i = j = k = 0
+            L = list[esquerda:esquerda + n1]
+            R = list[meio + 1:meio + 1 + n2]
 
-            while i < len(left) and j < len(rigth):
-                if left[i] < rigth[j]:
-                    list[k] = left[i]
+            i = j = 0
+            k = esquerda
+
+            while i < n1 and j < n2:
+                if L[i] <= R[j]:
+                    list[k] = L[i]
                     i += 1
                 else:
-                    list[k] = rigth[j]
-                    swaps = swaps + 1
+                    list[k] = R[j]
                     j += 1
+                    swaps[0] += 1
                 k += 1
-                comps = comps + 1
+                comps[0] += 1
 
-            while i < len(left):
-                list[k] = left[i]
+            while i < n1:
+                list[k] = L[i]
                 i += 1
                 k += 1
 
-            while j < len(rigth):
-                list[k] = rigth[j]
+            while j < n2:
+                list[k] = R[j]
                 j += 1
                 k += 1
 
+        def merge_sort_recursive(list, esquerda, direita):
+            if esquerda < direita:
+                meio = (esquerda + direita) // 2
+
+                merge_sort_recursive(list, esquerda, meio)
+                merge_sort_recursive(list, meio + 1, direita)
+
+                merge(list, esquerda, meio, direita)
+
+        merge_sort_recursive(list, 0, len(list) - 1)
+
         duration = time.time() - start_time
 
-        return list, swaps, comps, duration*1000.0
+        return list, comps, swaps, duration*1000.0
 
     def shell_sort(self, list):
         comps = 0
