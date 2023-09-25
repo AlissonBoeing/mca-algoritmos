@@ -213,10 +213,9 @@ class List:
                 chave = inner_list[j]
                 i = j - 1
 
-                while i >= 0:
-                    if(inner_list[i] > chave):
-                        inner_list[i + 1] = inner_list[i]
-                        swaps = swaps + 1
+                while i >= 0 and inner_list[i] > chave:
+                    inner_list[i + 1] = inner_list[i]
+                    swaps = swaps + 1
                     comps = comps + 1
                     i = i - 1
 
@@ -230,45 +229,57 @@ class List:
         return list, swaps, comps, duration*1000.0
 
     def merge_sort(self, list):
-        comps = 0
-        swaps = 0
+        comps = [0]
+        swaps = [0]
         duration = 0
+
         start_time = time.time()
-        
-        if len(list) > 1:
-            middle = len(list) // 2
-            left = list[:middle]
-            rigth = list[middle:]
 
-            self.merge_sort(left)
-            self.merge_sort(rigth)
+        def merge(list, left, middle, right):
+            n1 = middle - left + 1
+            n2 = right - middle
 
-            i = j = k = 0
+            L = list[left:left + n1]
+            R = list[middle + 1:middle + 1 + n2]
 
-            while i < len(left) and j < len(rigth):
-                if left[i] < rigth[j]:
-                    list[k] = left[i]
+            i = j = 0
+            k = left
+
+            while i < n1 and j < n2:
+                if L[i] <= R[j]:
+                    list[k] = L[i]
                     i += 1
                 else:
-                    list[k] = rigth[j]
-                    swaps = swaps + 1
+                    list[k] = R[j]
                     j += 1
+                    swaps[0] += 1
                 k += 1
-                comps = comps + 1
+                comps[0] += 1
 
-            while i < len(left):
-                list[k] = left[i]
+            while i < n1:
+                list[k] = L[i]
                 i += 1
                 k += 1
 
-            while j < len(rigth):
-                list[k] = rigth[j]
+            while j < n2:
+                list[k] = R[j]
                 j += 1
                 k += 1
 
+        def merge_sort_recursive(list, left, right):
+            if left < right:
+                middle = (left + right) // 2
+
+                merge_sort_recursive(list, left, middle)
+                merge_sort_recursive(list, middle + 1, right)
+
+                merge(list, left, middle, right)
+
+        merge_sort_recursive(list, 0, len(list) - 1)
+
         duration = time.time() - start_time
 
-        return list, swaps, comps, duration*1000.0
+        return list, comps, swaps, duration*1000.0
 
     def shell_sort(self, list):
         comps = 0
