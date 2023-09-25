@@ -212,11 +212,13 @@ class List:
             for j in range(1, n):
                 chave = inner_list[j]
                 i = j - 1
-
-                while i >= 0 and inner_list[i] > chave:
-                    inner_list[i + 1] = inner_list[i]
-                    swaps = swaps + 1
+                while i >= 0:
                     comps = comps + 1
+                    if(inner_list[i] > chave):
+                        inner_list[i + 1] = inner_list[i]
+                        swaps = swaps + 1
+                    else:
+                        break    
                     i = i - 1
 
                 inner_list[i + 1] = chave
