@@ -1,5 +1,7 @@
 import time
 import numpy as np
+import sys
+
 class List:
     NUM_OF_ITERATIONS = 5
 
@@ -167,6 +169,7 @@ class List:
         return list, swaps, comps, duration*1000
 
     def quick_sort(self, list, left, right):
+            sys.setrecursionlimit(11000)
             comps = 0
             swaps = 0
             duration = 0
@@ -231,13 +234,14 @@ class List:
         return list, swaps, comps, duration*1000.0
 
     def merge_sort(self, list):
-        comps = [0]
-        swaps = [0]
+        comps = 0
+        swaps = 0
         duration = 0
 
         start_time = time.time()
 
         def merge(list, left, middle, right):
+            nonlocal comps, swaps
             n1 = middle - left + 1
             n2 = right - middle
 
@@ -254,9 +258,9 @@ class List:
                 else:
                     list[k] = R[j]
                     j += 1
-                    swaps[0] += 1
+                    swaps += 1
                 k += 1
-                comps[0] += 1
+                comps += 1
 
             while i < n1:
                 list[k] = L[i]
@@ -281,7 +285,7 @@ class List:
 
         duration = time.time() - start_time
 
-        return list, comps, swaps, duration*1000.0
+        return list, swaps, comps, duration*1000.0
 
     def shell_sort(self, list):
         comps = 0
