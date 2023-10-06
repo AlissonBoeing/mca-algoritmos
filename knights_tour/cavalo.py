@@ -1,8 +1,5 @@
 import sys
 
-x_moves = [2, 1, -1, -2, -2, -1, 1, 2]
-y_moves = [1, 2, 2, 1, -1, -2, -2, -1]
-
 def initialize_board(board, board_size):
     for row in range(board_size):
         a = []
@@ -50,22 +47,24 @@ def knights_tour(board_size, initial_row, initial_column):
     print("No solution found")
     return False
     
+x_moves = [2, 1, -1, -2, -2, -1, 1, 2]
+y_moves = [1, 2, 2, 1, -1, -2, -2, -1]
+
 print("### Knight's tour ###")
+
 size = int(input("\n Choose board size (NxN)\n"))
 
 if (size <= 3):
     print("Size must be greater than 3")
     sys.exit()
 
+
 x = int(input("\n Choose initial X position\n"))
-if not ((x >= 0 and x < size)):
+y = int(input("\n Choose initial y position\n"))
+
+if not ((x >= 0 and x < size) and (y >= 0 and y < size)):
     print("Inititial position must be within board limits") 
     sys.exit() 
 
-y = int(input("\n Choose initial y position\n "))
-    
-if not ((y >= 0 and y < size)):
-    print("Inititial position must be within board limits") 
-    sys.exit() 
 
 knights_tour(size, x, y)
